@@ -1,9 +1,18 @@
-chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
-  if (details.frameId !== 0) return;
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  // We care about URL changes or when a page begins loading (e.g., a refresh)
+  if (!changeInfo.url && changeInfo.status !== 'loading') return;
 
-  const url = new URL(details.url);
+  // Get the current URL
+  const currentUrl = changeInfo.url || tab.url;
+  // If no URL, return
+  if (!currentUrl) return;
 
+  const url = new URL(currentUrl);
+
+  // Check if the domain is a Google URL
   const isGoogleDomain = url.hostname.startsWith("www.google.") || url.hostname.startsWith("google.");
+
+  // Check if the path is a search path
   if (isGoogleDomain && url.pathname === "/search") {
     // Get the saved settings (defaulting to udm14 and enabled)
     const data = await chrome.storage.local.get({ bypassMode: 'udm14', extensionEnabled: true });
@@ -37,7 +46,7 @@ chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
 
     // Redirect the tab if we made changes
     if (needsUpdate) {
-      chrome.tabs.update(details.tabId, { url: url.toString() });
+      chrome.tabs.update(tabId, { url: url.toString() });
     }
   }
-}, { url: [{ hostContains: "google.", pathEquals: "/search" }] });
+});
