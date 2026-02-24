@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "unAI: Hide Google AI Overviews",
+  "version": "1.0",
+  "description": "Hide AI Overviews from Google search results. Clean and open-source.",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "webNavigation",
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.google.com/*"
+  ],
+  "icons": {
+    "16": "robot-white-ud.png",
+    "48": "robot-white-ud.png",
+    "128": "robot-white-ud.png"
+  }
+}
