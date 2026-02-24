@@ -9,7 +9,7 @@
 - **Toggle On/Off**: Easily enable or disable the functionality with a simple toggle switch without having to uninstall/disable the extension.
 - **Dynamic Refresh**: Auto-prompts you to refresh your search results instantly when you change your settings on an active Google Search tab.
 - **Two Blocking Options**: Choose between two distinct methods to hide AI overviews, based on your preference for how search results are filtered. (more below)
-- **Open-Source & Secure**: Built with standard extension APIs (`tabs`, `storage`) meaning your browsing history remains your own. Clean code, no tracking.
+- **Open-Source & Secure**: Built with standard extension APIs (`storage`) meaning your browsing history remains your own. Clean code, no tracking.
     - `storage`: used to store the user's settings
 
 ## How it Works: Two Modes
