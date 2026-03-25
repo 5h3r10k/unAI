@@ -11,7 +11,7 @@
   </div>
 
   <label class="toggle-container">
-    <span>Enable Extension</span>
+    <span>Hide AI Overviews</span>
     <div class="switch">
       <input type="checkbox" id="extension-toggle">
       <span class="slider"></span>
@@ -22,26 +22,29 @@
     <button id="refresh-btn" class="refresh-button">Refresh search results?</button>
   </div>
 
-  <div class="mode-section" id="mode-section">
-    <div class="section-title">Select Mode</div>
-    <div class="option-group">
-      <div>
-        <input type="radio" id="mode-udm14" name="bypassMode" value="udm14">
-        <label for="mode-udm14" class="option-label"
-          title="Forces Google's classic 'Web' filter (udm=14) to natively bypass AI results">
-          Web Mode (udm=14)
-        </label>
-      </div>
+  <details class="advanced-options">
+    <summary class="advanced-summary">Show advanced options</summary>
+    <div class="mode-section" id="mode-section">
+      <div class="section-title">Select Mode</div>
+      <div class="option-group">
+        <div>
+          <input type="radio" id="mode-udm14" name="bypassMode" value="udm14">
+          <label for="mode-udm14" class="option-label"
+            title="Forces Google's classic 'Web' filter (udm=14) to natively bypass AI results">
+            Web Mode (udm=14)
+          </label>
+        </div>
 
-      <div>
-        <input type="radio" id="mode-minusAI" name="bypassMode" value="minusAI">
-        <label for="mode-minusAI" class="option-label"
-          title="Appends '-ai' to the end of your search text to request no AI Overviews">
-          Append "-ai"
-        </label>
+        <div>
+          <input type="radio" id="mode-minusAI" name="bypassMode" value="minusAI">
+          <label for="mode-minusAI" class="option-label"
+            title="Appends '-ai' to the end of your search text to request no AI Overviews">
+            Append "-ai"
+          </label>
+        </div>
       </div>
     </div>
-  </div>
+  </details>
 
   <script src="popup.js"></script>
 </body>

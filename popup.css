@@ -195,3 +195,29 @@ input:checked+.slider:before {
 .refresh-button:hover {
     opacity: 0.9;
 }
+
+/* Advanced Options */
+.advanced-options {
+    margin-top: 0.5em;
+    padding-top: 1em;
+    border-top: 1px solid var(--md-sys-color-surface-container);
+}
+
+.advanced-summary {
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: var(--md-sys-color-outline);
+    user-select: none;
+    outline: none;
+    transition: color 0.2s ease;
+    padding: 0.5em 0;
+}
+
+.advanced-summary:hover {
+    color: var(--md-sys-color-primary);
+}
+
+.advanced-options[open] .advanced-summary {
+    margin-bottom: 1.25em;
+}
