@@ -1,3 +1,6 @@
+let enabled_icon_path = "assets/robot-white-ud.png";
+let disabled_icon_path = "assets/robot-white.png";
+
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   // We care about URL changes or when a page begins loading (e.g., a refresh)
   if (!changeInfo.url && changeInfo.status !== 'loading') return;
@@ -67,7 +70,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
 // Update the extension icon based on whether it is enabled or disabled
 function updateIcon(isEnabled) {
-  const iconPath = isEnabled ? "robot-white-ud.png" : "robot-white.png";
+  const iconPath = isEnabled ? enabled_icon_path : disabled_icon_path;
   chrome.action.setIcon({ path: iconPath }).catch(err => {
     console.debug("Failed to set icon:", err);
   });
