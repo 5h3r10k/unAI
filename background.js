@@ -64,3 +64,32 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     }
   }
 });
+
+// Update the extension icon based on whether it is enabled or disabled
+function updateIcon(isEnabled) {
+  const iconPath = isEnabled ? "robot-white-ud.png" : "robot-white.png";
+  chrome.action.setIcon({ path: iconPath }).catch(err => {
+    console.debug("Failed to set icon:", err);
+  });
+}
+
+// Listen for changes in the settings to update the icon dynamically
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === 'local' && changes.extensionEnabled !== undefined) {
+    updateIcon(changes.extensionEnabled.newValue);
+  }
+});
+
+// Initialize the icon on startup
+chrome.runtime.onStartup.addListener(() => {
+  chrome.storage.local.get({ extensionEnabled: true }, (data) => {
+    updateIcon(data.extensionEnabled);
+  });
+});
+
+// Initialize the icon on installation/update
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.local.get({ extensionEnabled: true }, (data) => {
+    updateIcon(data.extensionEnabled);
+  });
+});
