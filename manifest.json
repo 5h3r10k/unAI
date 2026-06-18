@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "unAI: Hide Google AI Overviews",
-  "version": "1.0",
+  "version": "2.0",
   "description": "Hide AI Overviews from Google search results. Clean and open-source.",
   "background": {
     "service_worker": "background.js"
