@@ -23,10 +23,21 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     const mode = data.bypassMode;
 
     let query = url.searchParams.get("q");
+    let tbm = url.searchParams.get("tbm");
+    let udm = url.searchParams.get("udm");
     let needsUpdate = false;
 
+    // We only want to modify general web searches to hide AI overviews.
+    // If tbm is present, it's a specialized search (Maps, Images, News, Shopping, etc.)
+    // If udm is present and not 14 (Web) or 1 (All), it's a specialized search (e.g. udm=2 for Images)
+    const isSpecializedSearch = (tbm !== null) || (udm !== null && udm !== "14" && udm !== "1");
+
+    if (isSpecializedSearch) {
+      return; // Do not intercept or redirect specialized searches
+    }
+
     if (mode === 'minusAI') {
-      // If "-ai" isn't there, add it. Also, remove "udm=14" if present.
+      // If "-ai" isn't there, add it. Also, remove "udm" if present.
       if (query && !query.includes("-ai")) {
         url.searchParams.set("q", query + " -ai");
         url.searchParams.delete("udm");
@@ -34,7 +45,6 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       }
     } else if (mode === 'udm14') {
       // If "udm=14" isn't there, add it. Also, remove "-ai" if present.
-      let udm = url.searchParams.get("udm");
       if (udm !== "14") {
         url.searchParams.set("udm", "14");
         if (query && query.endsWith(" -ai")) {
@@ -46,7 +56,11 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
     // Redirect the tab if we made changes
     if (needsUpdate) {
-      chrome.tabs.update(tabId, { url: url.toString() });
+      chrome.tabs.update(tabId, { url: url.toString() }).catch((err) => {
+        // Suppress "navigation rejected" errors that happen when Google SPA
+        // navigates concurrently.
+        console.debug("unAI extension navigation safely interrupted:", err);
+      });
     }
   }
 });
